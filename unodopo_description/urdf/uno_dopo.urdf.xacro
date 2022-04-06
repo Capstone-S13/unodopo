@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<robot name="UnoDopo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find urdf_tutorial)/urdf/uno_dopo.gazebo.xacro"/>
+
+    <!-- base_link -->
+    <link name="base_link">
+        <visual>
+            <material name="grey"/>
+            <origin rpy="0 0 ${1.57}" xyz=" 0.0 0.0 0.0"/>
+            <geometry>
+                <!-- <box size="${base_width}  ${base_length} ${base_height}"/> -->
+                <mesh filename="package://urdf_tutorial/meshes/UnoDopoBase.obj" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="${base_iyy}" iyz="0.0" izz="${base_izz}"/>
+            <mass value="${base_mass}"/>
+        </inertial>
+    </link>
+
+    <!-- main wheel macro -->
+    <xacro:macro name="main_wheels" params="suffix reflect">
+
+        <!-- main wheel link -->
+        <link name="${suffix}_wheel">
+            <collision>
+                <geometry>
+                     <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+            </collision>
+            <visual>
+                <!-- <origin rpy="${1.57} 0 0" /> -->
+                <material name="black"/>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                    <!-- <mesh filename="package://urdf_tutorial/meshes/UnoDopoWheel.obj" scale="${1.0} ${1.0} ${1.0}"/> -->
+                </geometry>
+            </visual>
+            <inertial>
+                <inertia ixx="${wheel_ixx}" ixy="0.0" ixz="0.1" iyy="${wheel_ixx}" iyz="0.0" izz="${wheel_izz}"/>
+                <mass value="1.0"/>
+            </inertial>
+        </link>
+
+        <!-- TODO: Create intermediary link so axis are in the right orientation for turning -->
+
+        <!-- intermediary link -->
+        <link name="${suffix}_intermediary_link">
+            <visual>
+                <material name="invisible"/>
+                <geometry>
+                    <cylinder radius="${wheel_radius/2}" length="${wheel_length/2}"/>
+                    <!-- <mesh filename="package://urdf_tutorial/meshes/UnoDopoWheel.obj" scale="${1.0} ${1.0} ${1.0}"/> -->
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="0.01"/>
+                <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01"/>
+            </inertial>
+        </link>
+
+        <!-- intermediary joint -->
+        <joint name="${suffix}_intermediary_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="${suffix}_intermediary_link"/>
+            <origin rpy="0 ${-1.57} 0" xyz="${reflect*(wheel_separation+wheel_thickness*0)} 0 ${wheel_radius-castor_wheel_radius}"/>
+        </joint>
+
+        <!-- main wheel joint -->
+        <joint name="${suffix}_wheel_joint" type="continuous">
+            <parent link="${suffix}_intermediary_link"/>
+            <child link="${suffix}_wheel"/>
+            <origin xyz="0 0 0" rpy="0 0 ${1.57}"/>
+            <axis xyz="0.0 0.0 1.0"/>
+        </joint>
+
+
+        <!-- This block connects the wheel joint to an actuator (motor), which informs both
+        simulation and visualization of the robot -->
+        <transmission name="${suffix}_wheel_trans">
+          <type>transmission_interface/SimpleTransmission</type>
+          <actuator name="${suffix}_wheel_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+          </actuator>
+          <joint name="${suffix}_wheel_joint">
+            <hardwareInterface>VelocityJointInterface</hardwareInterface>
+          </joint>
+        </transmission>
+    </xacro:macro>
+
+    <!-- create main two wheels -->
+    <xacro:main_wheels suffix="right" reflect="1.0"/>
+    <xacro:main_wheels suffix="left" reflect="-1.0"/>
+
+    <!-- castor wheels -->
+    <link name="front_castor_wheel">
+        <visual>
+            <material name="black"/>
+            <geometry>
+                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <inertia ixx="${castor_wheel_ixx}" ixy="0.0" ixz="0.0" iyy="${castor_wheel_ixx}" iyz="0.0" izz="${castor_wheel_izz}"/>
+            <mass value="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="front_castor_to_base" type="continuous">
+        <parent link="base_link"/>
+        <child link="front_castor_wheel"/>
+         <origin rpy="0 1.57 0" xyz="0 0.1625 ${0}"/>
+         <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+
+    <link name="back_castor_wheel">
+        <visual>
+            <material name="black"/>
+            <geometry>
+                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <inertia ixx="${castor_wheel_ixx}" ixy="0.0" ixz="0.0" iyy="${castor_wheel_ixx}" iyz="0.0" izz="${castor_wheel_izz}"/>
+            <mass value="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="back_castor_to_base" type="continuous">
+        <parent link="base_link"/>
+        <child link="back_castor_wheel"/>
+        <origin rpy="0 1.57 0" xyz="0 -0.1625 ${0}"/>
+        <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+
+</robot>

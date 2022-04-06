@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<robot name="xacro_properties" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Measurements -->
+
+    <!-- base -->
+    <xacro:property name="base_mass" value="10"/>
+    <xacro:property name="base_width" value="0.307"/>
+    <xacro:property name="base_length" value="0.604"/>
+    <xacro:property name="base_height" value="0.3"/>
+    <xacro:property name="base_izz" value="${(1/12)*base_mass*(base_width*base_width + base_length*base_length)}"/>
+    <xacro:property name="base_iyy" value="${(1/12)*base_mass*(base_height*base_height + base_width*base_width)}"/>
+    <xacro:property name="base_ixx" value="${(1/12)*base_mass*(base_height*base_height + base_length*base_length)}"/>
+
+    <!-- main wheels -->
+    <xacro:property name="wheel_radius" value="0.105"/>
+    <xacro:property name="wheel_length" value="${2*0.026}"/>
+    <xacro:property name="wheel_thickness" value="${0.1}"/>
+    <xacro:property name="wheel_separation" value="${0.153}"/>
+    <xacro:property name="wheel_mass" value="1"/>
+    <xacro:property name="wheel_ixx" value="${(1/12)*wheel_mass*(3*wheel_radius*wheel_radius + wheel_length*wheel_length)}"/>
+    <xacro:property name="wheel_izz" value="${(1/2)*wheel_mass*(wheel_radius*wheel_radius)}"/>
+
+
+    <!-- castor wheels macros -->
+    <xacro:property name="castor_wheel_radius" value="0.037"/>
+    <xacro:property name="castor_wheel_length" value="${3*0.014}"/>
+    <xacro:property name="castor_wheel_mass" value="0.5"/>
+    <xacro:property name="castor_wheel_ixx" value="${(1/12)*castor_wheel_mass*(3*castor_wheel_radius*castor_wheel_radius + castor_wheel_length*castor_wheel_length)}"/>
+    <xacro:property name="castor_wheel_izz" value="${(1/2)*castor_wheel_mass*(castor_wheel_radius*castor_wheel_radius)}"/>
+
+    <!-- colors -->
+    <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <material name="grey">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+    </material>
+
+    <material name="invisible">
+        <color rgba="0.0 0.0 0.0 0.0"/>
+    </material>
+
+    <material name="dark">
+      <color rgba="0.3 0.3 0.3 1.0"/>
+    </material>
+
+    <material name="light_black">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="blue">
+      <color rgba="0.0 0.0 0.8 1.0"/>
+    </material>
+
+    <material name="green">
+      <color rgba="0.0 0.8 0.0 1.0"/>
+    </material>
+
+    <material name="orange">
+      <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+    </material>
+
+    <material name="brown">
+      <color rgba="${222/255} ${207/255} ${195/255} 1.0"/>
+    </material>
+
+    <material name="red">
+      <color rgba="0.8 0.0 0.0 1.0"/>
+    </material>
+
+</robot>
