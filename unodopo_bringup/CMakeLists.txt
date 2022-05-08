@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(unodopo_description)
+project(unodopo_bringup)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,10 +8,13 @@ project(unodopo_description)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED)
-
 catkin_package()
 
-install(DIRECTORY meshes rviz urdf launch
+if(CATKIN_ENABLE_TESTING)
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch)
+endif()
+
+install(DIRECTORY launch
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-

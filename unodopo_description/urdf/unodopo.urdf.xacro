@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot name="UnoDopo" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:include filename="$(find urdf_tutorial)/urdf/uno_dopo.gazebo.xacro"/>
+    <xacro:include filename="$(find unodopo_description)/urdf/unodopo.gazebo.xacro"/>
+<!--
+    <link name="root">
+    </link> -->
 
     <!-- base_link -->
     <link name="base_link">
@@ -9,7 +12,7 @@
             <origin rpy="0 0 ${1.57}" xyz=" 0.0 0.0 0.0"/>
             <geometry>
                 <!-- <box size="${base_width}  ${base_length} ${base_height}"/> -->
-                <mesh filename="package://urdf_tutorial/meshes/UnoDopoBase.obj" scale="1.0 1.0 1.0"/>
+                <mesh filename="package://unodopo_description/meshes/UnoDopoBase.obj" scale="1.0 1.0 1.0"/>
             </geometry>
         </visual>
         <inertial>
@@ -17,6 +20,11 @@
             <mass value="${base_mass}"/>
         </inertial>
     </link>
+
+    <!-- <joint name="root" type="fixed">
+        <parent link="root"/>
+        <child link="base_link"/>
+    </joint> -->
 
     <!-- main wheel macro -->
     <xacro:macro name="main_wheels" params="suffix reflect">
@@ -63,7 +71,7 @@
         <joint name="${suffix}_intermediary_joint" type="fixed">
             <parent link="base_link"/>
             <child link="${suffix}_intermediary_link"/>
-            <origin rpy="0 ${-1.57} 0" xyz="${reflect*(wheel_separation+wheel_thickness*0)} 0 ${wheel_radius-castor_wheel_radius}"/>
+            <origin rpy="0 ${-1.57} 0" xyz="${reflect*(wheel_separation+wheel_thickness*0)} 0 ${wheel_radius-caster_wheel_radius}"/>
         </joint>
 
         <!-- main wheel joint -->
@@ -92,55 +100,80 @@
     <xacro:main_wheels suffix="right" reflect="1.0"/>
     <xacro:main_wheels suffix="left" reflect="-1.0"/>
 
-    <!-- castor wheels -->
-    <link name="front_castor_wheel">
+    <!-- caster wheels -->
+    <link name="front_caster_wheel">
         <visual>
             <material name="black"/>
             <geometry>
-                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+                 <cylinder radius="${caster_wheel_radius}" length="${caster_wheel_length}"/>
             </geometry>
         </visual>
         <collision>
             <geometry>
-                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+                 <cylinder radius="${caster_wheel_radius}" length="${caster_wheel_length}"/>
             </geometry>
         </collision>
         <inertial>
-            <inertia ixx="${castor_wheel_ixx}" ixy="0.0" ixz="0.0" iyy="${castor_wheel_ixx}" iyz="0.0" izz="${castor_wheel_izz}"/>
+            <inertia ixx="${caster_wheel_ixx}" ixy="0.0" ixz="0.0" iyy="${caster_wheel_ixx}" iyz="0.0" izz="${caster_wheel_izz}"/>
             <mass value="1.0"/>
         </inertial>
     </link>
 
-    <joint name="front_castor_to_base" type="continuous">
+    <joint name="front_caster_joint" type="continuous">
         <parent link="base_link"/>
-        <child link="front_castor_wheel"/>
-         <origin rpy="0 1.57 0" xyz="0 0.1625 ${0}"/>
+        <child link="front_caster_wheel"/>
+         <origin rpy="0 1.57 0" xyz="0 0.1625 0.0"/>
          <axis xyz="0.0 0.0 1.0"/>
     </joint>
 
-    <link name="back_castor_wheel">
+    <link name="back_caster_wheel">
         <visual>
             <material name="black"/>
             <geometry>
-                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+                 <cylinder radius="${caster_wheel_radius}" length="${caster_wheel_length}"/>
             </geometry>
         </visual>
         <collision>
             <geometry>
-                 <cylinder radius="${castor_wheel_radius}" length="${castor_wheel_length}"/>
+                 <cylinder radius="${caster_wheel_radius}" length="${caster_wheel_length}"/>
             </geometry>
         </collision>
         <inertial>
-            <inertia ixx="${castor_wheel_ixx}" ixy="0.0" ixz="0.0" iyy="${castor_wheel_ixx}" iyz="0.0" izz="${castor_wheel_izz}"/>
+            <inertia ixx="${caster_wheel_ixx}" ixy="0.0" ixz="0.0" iyy="${caster_wheel_ixx}" iyz="0.0" izz="${caster_wheel_izz}"/>
             <mass value="1.0"/>
         </inertial>
     </link>
 
-    <joint name="back_castor_to_base" type="continuous">
+    <joint name="back_caster_joint" type="continuous">
         <parent link="base_link"/>
-        <child link="back_castor_wheel"/>
-        <origin rpy="0 1.57 0" xyz="0 -0.1625 ${0}"/>
+        <child link="back_caster_wheel"/>
+        <origin rpy="0 1.57 0" xyz="0 -0.1625 0.0"/>
         <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+
+    <!-- lidar link -->
+    <link name="laser_scan_link">
+        <visual>
+            <material name="hokuyo_laser_scanner_material"/>
+            <geometry>
+              <mesh filename="package://unodopo_description/meshes/hokuyo_laser_scanner.stl" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+              <mesh filename="package://unodopo_description/meshes/hokuyo_laser_scanner.stl" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </collision>
+		    <inertial>
+		    	  <mass value="0.2" />
+		    	  <inertia ixx="0" ixy="0"  ixz="0" iyy="0" iyz="0" izz="0" />
+		    </inertial>
+    </link>
+
+    <joint name="laser_scan_joint" type="fixed">
+        <origin xyz="0.0 0.3 0.2" rpy="0.0 0.0 1.57"/>
+        <parent link="base_link"/>
+        <child link="laser_scan_link"/>
     </joint>
 
 </robot>

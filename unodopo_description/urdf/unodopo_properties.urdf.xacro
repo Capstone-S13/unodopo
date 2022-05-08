@@ -22,12 +22,12 @@
     <xacro:property name="wheel_izz" value="${(1/2)*wheel_mass*(wheel_radius*wheel_radius)}"/>
 
 
-    <!-- castor wheels macros -->
-    <xacro:property name="castor_wheel_radius" value="0.037"/>
-    <xacro:property name="castor_wheel_length" value="${3*0.014}"/>
-    <xacro:property name="castor_wheel_mass" value="0.5"/>
-    <xacro:property name="castor_wheel_ixx" value="${(1/12)*castor_wheel_mass*(3*castor_wheel_radius*castor_wheel_radius + castor_wheel_length*castor_wheel_length)}"/>
-    <xacro:property name="castor_wheel_izz" value="${(1/2)*castor_wheel_mass*(castor_wheel_radius*castor_wheel_radius)}"/>
+    <!-- caster wheels macros -->
+    <xacro:property name="caster_wheel_radius" value="0.037"/>
+    <xacro:property name="caster_wheel_length" value="${3*0.014}"/>
+    <xacro:property name="caster_wheel_mass" value="0.5"/>
+    <xacro:property name="caster_wheel_ixx" value="${(1/12)*caster_wheel_mass*(3*caster_wheel_radius*caster_wheel_radius + caster_wheel_length*caster_wheel_length)}"/>
+    <xacro:property name="caster_wheel_izz" value="${(1/2)*caster_wheel_mass*(caster_wheel_radius*caster_wheel_radius)}"/>
 
     <!-- colors -->
     <material name="black">
@@ -73,5 +73,9 @@
     <material name="red">
       <color rgba="0.8 0.0 0.0 1.0"/>
     </material>
+
+    <material name="hokuyo_laser_scanner_material">
+				<color rgba="1 0.643137 0.0313725 1.0"/>
+		</material>
 
 </robot>
