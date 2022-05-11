@@ -4,7 +4,8 @@
   <arg name="configuration_basename" default="unodopo_lds_2d.lua"/>
   <arg name="open_rviz" default="true"/>
 
-  <!-- TurtleBot3 -->
+  <!-- Unodopo -->
+  <!-- This runs the robot state publisher node -->
   <include file="$(find unodopo_bringup)/launch/unodopo_remote.launch">
   </include>
 
