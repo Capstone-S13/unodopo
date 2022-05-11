@@ -1,7 +1,10 @@
 <launch>
   <arg name="multi_robot_name" default=""/>
 
+  <arg name="model" default="$(find unodopo_description)/urdf/unodopo.urdf.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find unodopo_description)/urdf/unodopo.urdf.xacro" />
 
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="50.0" />
     <param name="tf_prefix" value="$(arg multi_robot_name)"/>
