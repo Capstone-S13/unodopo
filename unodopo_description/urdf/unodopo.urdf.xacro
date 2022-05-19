@@ -73,8 +73,8 @@
     </xacro:macro>
 
     <!-- create main two wheels -->
-    <xacro:main_wheels suffix="right" reflect="1.0"/>
-    <xacro:main_wheels suffix="left" reflect="-1.0"/>
+    <xacro:main_wheels suffix="right" reflect="-1.0"/>
+    <xacro:main_wheels suffix="left" reflect="1.0"/>
 
     <!-- caster wheels -->
     <link name="front_caster_wheel">
