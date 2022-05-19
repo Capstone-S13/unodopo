@@ -151,7 +151,7 @@
   <link name="base_link">
     <visual>
       <material name="grey"/>
-      <origin rpy="0 0 1.57" xyz=" 0.0 0.0 0.0"/>
+      <origin rpy="0 0 0" xyz=" 0.0 0.0 0.0"/>
       <geometry>
         <!-- <box size="${base_width}  ${base_length} ${base_height}"/> -->
         <mesh filename="package://unodopo_description/meshes/UnoDopoBase.obj" scale="1.0 1.0 1.0"/>
@@ -186,32 +186,11 @@
       <mass value="1.0"/>
     </inertial>
   </link>
-  <!-- TODO: Create intermediary link so axis are in the right orientation for turning -->
-  <!-- intermediary link -->
-  <link name="right_intermediary_link">
-    <visual>
-      <material name="invisible"/>
-      <geometry>
-        <cylinder length="0.026" radius="0.0525"/>
-        <!-- <mesh filename="package://urdf_tutorial/meshes/UnoDopoWheel.obj" scale="${1.0} ${1.0} ${1.0}"/> -->
-      </geometry>
-    </visual>
-    <inertial>
-      <mass value="0.01"/>
-      <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01"/>
-    </inertial>
-  </link>
-  <!-- intermediary joint -->
-  <joint name="right_intermediary_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="right_intermediary_link"/>
-    <origin rpy="0 -1.57 0" xyz="0.153 0 0.068"/>
-  </joint>
   <!-- main wheel joint -->
   <joint name="right_wheel_joint" type="continuous">
-    <parent link="right_intermediary_link"/>
+    <parent link="base_link"/>
     <child link="right_wheel"/>
-    <origin rpy="0 0 1.57" xyz="0 0 0"/>
+    <origin rpy="-1.57 0 0" xyz="0 0.153 0.068"/>
     <axis xyz="0.0 0.0 1.0"/>
   </joint>
   <!-- This block connects the wheel joint to an actuator (motor), which informs both
@@ -245,32 +224,11 @@
       <mass value="1.0"/>
     </inertial>
   </link>
-  <!-- TODO: Create intermediary link so axis are in the right orientation for turning -->
-  <!-- intermediary link -->
-  <link name="left_intermediary_link">
-    <visual>
-      <material name="invisible"/>
-      <geometry>
-        <cylinder length="0.026" radius="0.0525"/>
-        <!-- <mesh filename="package://urdf_tutorial/meshes/UnoDopoWheel.obj" scale="${1.0} ${1.0} ${1.0}"/> -->
-      </geometry>
-    </visual>
-    <inertial>
-      <mass value="0.01"/>
-      <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01"/>
-    </inertial>
-  </link>
-  <!-- intermediary joint -->
-  <joint name="left_intermediary_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="left_intermediary_link"/>
-    <origin rpy="0 -1.57 0" xyz="-0.153 0 0.068"/>
-  </joint>
   <!-- main wheel joint -->
   <joint name="left_wheel_joint" type="continuous">
-    <parent link="left_intermediary_link"/>
+    <parent link="base_link"/>
     <child link="left_wheel"/>
-    <origin rpy="0 0 1.57" xyz="0 0 0"/>
+    <origin rpy="-1.57 0 0" xyz="0 -0.153 0.068"/>
     <axis xyz="0.0 0.0 1.0"/>
   </joint>
   <!-- This block connects the wheel joint to an actuator (motor), which informs both
@@ -305,7 +263,7 @@
   <joint name="front_caster_joint" type="continuous">
     <parent link="base_link"/>
     <child link="front_caster_wheel"/>
-    <origin rpy="0 1.57 0" xyz="0 0.1625 0.0"/>
+    <origin rpy="1.57 0 0" xyz="0.1625 0 0.0"/>
     <axis xyz="0.0 0.0 1.0"/>
   </joint>
   <link name="back_caster_wheel">
@@ -328,7 +286,7 @@
   <joint name="back_caster_joint" type="continuous">
     <parent link="base_link"/>
     <child link="back_caster_wheel"/>
-    <origin rpy="0 1.57 0" xyz="0 -0.1625 0.0"/>
+    <origin rpy="1.57 0 0" xyz="-0.1625 0 0.0"/>
     <axis xyz="0.0 0.0 1.0"/>
   </joint>
   <!-- lidar link -->
@@ -350,7 +308,7 @@
     </inertial>
   </link>
   <joint name="laser_scan_joint" type="fixed">
-    <origin rpy="0.0 0.0 1.57" xyz="0.0 0.3 0.2"/>
+    <origin rpy="0.0 0.0 0" xyz="0.245 0 0.15"/>
     <parent link="base_link"/>
     <child link="laser_scan_link"/>
   </joint>
