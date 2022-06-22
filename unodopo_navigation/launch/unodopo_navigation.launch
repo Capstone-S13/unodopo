@@ -1,14 +1,20 @@
 <launch>
   <!-- Arguments -->
   <arg name="model" default="unodopo"/>
-  <arg name="map_file" default="$(find unodopo_navigation)/maps/house.yaml"/>
+  <arg name="map_file" default="$(find unodopo_navigation)/maps/room_test_map.yaml"/>
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
 
-  <!-- unodop -->
+  <!-- robot state publisher -->
   <include file="$(find unodopo_bringup)/launch/unodopo_remote.launch">
     <arg name="model" value="$(arg model)" />
   </include>
+
+  <!-- lidar -->
+  <!--
+  <include file="$(find unodopo_bringup)/launch/unodopo_lidar.launch">
+  </include>
+  -->
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>

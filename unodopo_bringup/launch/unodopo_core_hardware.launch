@@ -1,5 +1,11 @@
 <launch>
+  <!-- subscribes to cmd_vel topic -->
+  <!-- publishes odom topic with base_link frame -->
+  <!-- broadcasts odom->base_link transform -->
   <arg name="param" default="value" />
+  <arg name="K_I" default="300"/>
+  <arg name="K_P" default="50"/>
+  <arg name="K_D" default="0.1"/>
   <node pkg="roboteq_diff_driver" type="driver" name="roboteq_diff_driver" output="screen">
     <!-- enable broadcast of odom tf -->
     <param name="pub_odom_tf" value="true" />
@@ -12,21 +18,27 @@
     <!-- specify port for roboteq controller -->
     <param name="port" value="/dev/ttyACM0" />
     <!-- specify baud for roboteq controller -->
-    <param name="baud" value="115200" />
+    <param name="baud" value="/dev/sbl2360" />
     <!-- specify whether to use open-loop motor speed control (as opposed to closed-loop)-->
     <param name="open_loop" value="false" />
     <!-- specify robot wheel circumference in meters  -->
-    <param name="wheel_circumference" value="0.3192" />
+    <param name="wheel_circumference" value="0.6377" />
     <!-- specify robot track width in meters  -->
-    <param name="track_width" value="0.4318" />
+    <param name="track_width" value="0.338" />
     <!-- specify pulse-per-revolution for motor encoders  -->
-    <param name="encoder_ppr" value="900" />
+    <param name="encoder_ppr" value="22625" />
     <!-- specify counts-per-revolution for motor encoders (ppr*4 for quadrature encoders)  -->
-    <param name="encoder_cpr" value="3600" />
+    <param name="encoder_cpr" value="90500" />
     <!-- specify maximum motor current (amps) -->
     <param name="max_amps" value="5.0" />
     <!-- specify maximum motor speed (rpm) -->
-    <param name="max_rpm" value="100" />
+    <param name="max_rpm" value="50" />
+    <!-- specify KP gain -->
+    <param name="K_P" value="$(arg K_P)" />
+    <!-- specify KI gain -->
+    <param name="K_I" value="$(arg K_I)" />
+    <!-- specify KD gain -->
+    <param name="K_D" value="0" />
+    
   </node>
-
 </launch>
