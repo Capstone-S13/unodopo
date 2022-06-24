@@ -3,9 +3,9 @@
   <!-- publishes odom topic with base_link frame -->
   <!-- broadcasts odom->base_link transform -->
   <arg name="param" default="value" />
-  <arg name="K_I" default="300"/>
-  <arg name="K_P" default="50"/>
-  <arg name="K_D" default="0.1"/>
+  <arg name="K_I" default="500"/>
+  <arg name="K_P" default="10"/>
+  <arg name="K_D" default="0"/>
   <node pkg="roboteq_diff_driver" type="driver" name="roboteq_diff_driver" output="screen">
     <!-- enable broadcast of odom tf -->
     <param name="pub_odom_tf" value="true" />
