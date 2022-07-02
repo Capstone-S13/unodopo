@@ -18,15 +18,14 @@
   <param name="robot_description"
     textfile="$(find unodopo_description)/urdf/unodopo.urdf" />
 
-  <arg name="configuration_basename" default="unodopo_gaezbo.lua"/>
-  <!-- This is not needed as the node is alr run by the unodopo_remote.launch -->
-  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher"
-    type="robot_state_publisher" /> -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
 
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
           -configuration_directory $(find unodopo_slam)/config
-          -configuration_basename $(arg configuration_basename)"
+          -configuration_basename unodopo_gazebo.lua"
       output="screen">
     <remap from="points2" to="scan" />
   </node>

@@ -24,6 +24,7 @@
   <exec_depend>unodopo_description</exec_depend>
   <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>roboteq_diff_driver</exec_depend>
   <buildtool_depend>catkin</buildtool_depend>
 
 
