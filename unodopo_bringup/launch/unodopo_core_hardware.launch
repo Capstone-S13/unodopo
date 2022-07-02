@@ -32,7 +32,7 @@
     <!-- specify maximum motor current (amps) -->
     <param name="max_amps" value="5.0" />
     <!-- specify maximum motor speed (rpm) -->
-    <param name="max_rpm" value="50" />
+    <param name="max_rpm" value="120" />
     <!-- specify KP gain -->
     <param name="K_P" value="$(arg K_P)" />
     <!-- specify KI gain -->
